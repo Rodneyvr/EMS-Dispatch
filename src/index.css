@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-heading: 'Barlow Condensed', sans-serif;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  body {
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, .font-heading {
+    font-family: var(--font-heading);
+    letter-spacing: 0.02em;
+  }
+
+  .font-mono-data {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Black, Red & White Emergency Livery Theme */
+.theme-black-red-white {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.theme-black-red-white .bg-slate-100 {
+  background-color: #0a0a0a !important;
+}
+
+.theme-black-red-white .bg-white {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+  border-color: #262626 !important;
+}
+
+.theme-black-red-white .text-slate-900,
+.theme-black-red-white .text-slate-800,
+.theme-black-red-white .text-slate-700,
+.theme-black-red-white .text-black {
+  color: #ffffff !important;
+}
+
+.theme-black-red-white .text-slate-600,
+.theme-black-red-white .text-slate-500,
+.theme-black-red-white .text-neutral-600,
+.theme-black-red-white .text-neutral-500 {
+  color: #a3a3a3 !important;
+}
+
+.theme-black-red-white .bg-slate-50,
+.theme-black-red-white .bg-neutral-50 {
+  background-color: #181818 !important;
+  color: #ffffff !important;
+}
+
+.theme-black-red-white .border-slate-200,
+.theme-black-red-white .border-neutral-200,
+.theme-black-red-white .border-slate-300,
+.theme-black-red-white .border-neutral-300 {
+  border-color: #2a2a2a !important;
+}
+
+.theme-black-red-white select,
+.theme-black-red-white input:not([type="checkbox"]):not([type="radio"]) {
+  background-color: #181818 !important;
+  color: #ffffff !important;
+  border-color: #333333 !important;
+}
+
+.theme-black-red-white table th {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.theme-black-red-white table tr:hover {
+  background-color: #1c1c1c !important;
+}
+
+/* Flashing ambulance light animations */
+@keyframes flash-red {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.9)); }
+  50% { opacity: 0.15; filter: none; }
+}
+
+@keyframes flash-blue {
+  0%, 100% { opacity: 0.15; filter: none; }
+  50% { opacity: 1; filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.9)); }
+}
+
+.beacon-red {
+  animation: flash-red 0.7s infinite ease-in-out;
+}
+
+.beacon-blue {
+  animation: flash-blue 0.7s infinite ease-in-out;
+}
+
+/* ECG pulse wave line animation */
+@keyframes ecg-crawl {
+  0% {
+    stroke-dashoffset: 400;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ecg-path {
+  stroke-dasharray: 400;
+  animation: ecg-crawl 2.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beacon-red,
+  .beacon-blue,
+  .ecg-path {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+
+/* Print styling for picking slips and reports */
+@media print {
+  header, nav, .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}

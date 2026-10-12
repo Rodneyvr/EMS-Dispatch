@@ -1,0 +1,6 @@
+{
+  "name": "ResQ EMS Dispatch & Stock Management System",
+  "description": "Comprehensive South African EMS Dispatch, Trip Log, Overtime Tracking and Mobile Stock Request System with real-time operations, audit logging and analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
