@@ -11,7 +11,9 @@
     "lint": "tsc --noEmit",
     "smoke": "tsx scripts/smoke.tsx",
     "e2e": "node scripts/e2e.cjs",
-    "verify:shift": "node scripts/verify-shift.cjs"
+    "verify:shift": "node scripts/verify-shift.cjs",
+    "standalone": "node scripts/build-standalone.mjs",
+    "verify:standalone": "node scripts/verify-standalone.cjs"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
