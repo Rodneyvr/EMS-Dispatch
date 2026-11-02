@@ -3,12 +3,16 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
+// `import.meta.dirname` is the ESM-safe equivalent of `__dirname`
+// (required by Vite's native config loader).
+const rootDir = import.meta.dirname ?? path.resolve(process.cwd());
+
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': rootDir,
       },
     },
     server: {

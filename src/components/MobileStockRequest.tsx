@@ -11,6 +11,7 @@ import { Storage } from '../utils/storage';
 import {
   getCurrentTimeHHMM,
   getTodayDateYYYYMMDD,
+  getShiftFromTime,
   formatDateSA,
 } from '../utils/timeCalculations';
 import {
@@ -51,7 +52,7 @@ export const MobileStockRequest: React.FC<MobileStockRequestProps> = ({
     settings.ambulances[0]?.fleetNo || 'MR001'
   );
   const [base, setBase] = useState<string>(currentUser.base || settings.bases[0] || 'Main Base');
-  const [shift, setShift] = useState<ShiftType>('Day');
+  const [shift, setShift] = useState<ShiftType>(() => getShiftFromTime(getCurrentTimeHHMM()));
   const [linkedEprf, setLinkedEprf] = useState<string>('');
   const [urgency, setUrgency] = useState<StockUrgency>('Routine');
 
@@ -89,6 +90,7 @@ export const MobileStockRequest: React.FC<MobileStockRequestProps> = ({
     const draft = Storage.getOfflineStockDraft() as {
       ambulance?: string;
       base?: string;
+      shift?: ShiftType;
       selectedQuantities?: Record<string, number>;
       customItems?: { name: string; qty: number; unit: string }[];
       controlledReason?: string;
@@ -98,6 +100,7 @@ export const MobileStockRequest: React.FC<MobileStockRequestProps> = ({
     if (draft && draft.selectedQuantities && Object.keys(draft.selectedQuantities).length > 0) {
       if (draft.ambulance) setAmbulance(draft.ambulance);
       if (draft.base) setBase(draft.base);
+      if (draft.shift) setShift(draft.shift);
       if (draft.selectedQuantities) setSelectedQuantities(draft.selectedQuantities);
       if (draft.customItems) setCustomItems(draft.customItems);
       if (draft.controlledReason) setControlledReason(draft.controlledReason);
@@ -112,6 +115,7 @@ export const MobileStockRequest: React.FC<MobileStockRequestProps> = ({
       Storage.saveOfflineStockDraft({
         ambulance,
         base,
+        shift,
         selectedQuantities,
         customItems,
         controlledReason,
@@ -121,7 +125,7 @@ export const MobileStockRequest: React.FC<MobileStockRequestProps> = ({
       const timer = setTimeout(() => setIsDraftSaved(false), 2000);
       return () => clearTimeout(timer);
     }
-  }, [ambulance, base, selectedQuantities, customItems, controlledReason, linkedEprf]);
+  }, [ambulance, base, shift, selectedQuantities, customItems, controlledReason, linkedEprf]);
 
   // Group items by category
   const categories = useMemo(() => {
@@ -581,7 +585,7 @@ export const MobileStockRequest: React.FC<MobileStockRequestProps> = ({
 
           {/* Vehicle & Urgency selectors */}
           <div className="p-3 bg-slate-900 border-b border-slate-800 space-y-2 text-xs">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <div>
                 <label className="text-[10px] font-bold text-slate-400 uppercase">Ambulance</label>
                 <select
@@ -609,6 +613,18 @@ export const MobileStockRequest: React.FC<MobileStockRequestProps> = ({
                       {b}
                     </option>
                   ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase">Shift</label>
+                <select
+                  value={shift}
+                  onChange={(e) => setShift(e.target.value as ShiftType)}
+                  className="w-full bg-slate-800 border border-slate-700 rounded p-1.5 text-white font-bold"
+                >
+                  <option value="Day">Day</option>
+                  <option value="Night">Night</option>
                 </select>
               </div>
             </div>
